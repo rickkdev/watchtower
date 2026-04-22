@@ -8,6 +8,7 @@ Started: Wed Apr 22 12:17:00 CEST 2026
 - Treat `Shadowbroker/` as a separate local reference codebase and ignore it from the Watchtower repo root.
 - Use npm workspaces from the repo root to manage `frontend/` and `backend/`; root `build`, `lint`, and `test` scripts are the standard validation entrypoints.
 - Keep frontend-to-backend development traffic behind the Vite proxy on `/api`, with baseline shell health exposed from backend `/api/status` and `/health`.
+- The current frontend map shell defines its layer UI and placeholder overlay points side by side in `frontend/src/App.tsx`; keep `layerDefinitions` and `layerMarkers` aligned until live data moves into a shared store.
 
 ---
 
@@ -18,4 +19,13 @@ Started: Wed Apr 22 12:17:00 CEST 2026
   - Use the repo-root workspace scripts for validation so frontend and backend stay in sync.
   - The frontend shell already fetches `/api/status`, so future system-wide status and freshness metadata can extend that payload instead of introducing a second shell endpoint.
   - Browser automation tools were not available in this run; startup was verified with local HTTP checks against the backend JSON endpoint and the Vite-served frontend shell.
+---
+
+## [2026-04-22 13:00:13 CEST] - US-002
+- Implemented an interactive SVG world map shell with drag-to-pan, wheel/button zoom controls, layer chips, and toggle buttons for flights, ships, satellites, and incidents.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `frontend/src/App.tsx`, `frontend/src/App.css`, `frontend/src/App.test.tsx`.
+- **Learnings for future iterations:**
+  - The first-pass map interaction is fully frontend-local in `frontend/src/App.tsx`, so later data-store work can replace marker arrays without reworking the viewport controls.
+  - Layer visibility is surfaced in both the control panel and the map chip row; keep those two affordances aligned when new layers are introduced.
+  - Browser automation tools were not available in this run; UI behavior was covered with frontend tests, but manual browser verification is still needed for live pan and zoom feel.
 ---

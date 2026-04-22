@@ -30,7 +30,7 @@
         "Verify layer toggles in browser"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "notes": "Keep the first version to 4 to 6 layers total. Avoid the 35-plus layer sprawl in Shadowbroker."
     },
     {

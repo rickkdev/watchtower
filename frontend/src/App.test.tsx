@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import App from './App'
 
 describe('App', () => {
-  it('renders the shell header and system status', () => {
+  it('renders the shell header, system status, and layer toggles', async () => {
     globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
@@ -25,5 +25,14 @@ describe('App', () => {
 
     expect(screen.getByRole('heading', { name: 'watchtower' })).toBeInTheDocument()
     expect(screen.getByText('System status')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Interactive world map' })).toBeInTheDocument()
+
+    const flightsToggle = screen.getByRole('button', { name: /flights/i })
+    expect(flightsToggle).toHaveAttribute('aria-pressed', 'true')
+
+    fireEvent.click(flightsToggle)
+
+    expect(flightsToggle).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.getByText('3/4 layers live')).toBeInTheDocument()
   })
 })

@@ -18,7 +18,8 @@
   margin-bottom: 24px;
 }
 
-.eyebrow {
+.eyebrow,
+.panel-kicker {
   margin: 0 0 8px;
   text-transform: uppercase;
   letter-spacing: 0.22em;
@@ -26,11 +27,22 @@
   color: rgba(214, 228, 255, 0.72);
 }
 
-.topbar h1 {
+.topbar h1,
+.panel-heading h2 {
   margin: 0;
-  font-size: clamp(2.5rem, 5vw, 4.9rem);
   line-height: 0.92;
   text-transform: lowercase;
+}
+
+.topbar h1 {
+  font-size: clamp(2.5rem, 5vw, 4.9rem);
+}
+
+.status-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .status-pill {
@@ -42,6 +54,10 @@
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-size: 0.72rem;
+}
+
+.status-pill-muted {
+  color: rgba(214, 228, 255, 0.78);
 }
 
 .status-pill[data-state='online'] {
@@ -71,9 +87,198 @@
     0 24px 80px rgba(0, 0, 0, 0.38);
 }
 
+.layer-panel,
+.system-status {
+  position: absolute;
+  z-index: 2;
+  width: min(360px, calc(100% - 48px));
+  padding: 20px;
+  border-radius: 22px;
+  border: 1px solid rgba(194, 222, 255, 0.12);
+  background: rgba(5, 13, 24, 0.82);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.36);
+}
+
+.layer-panel {
+  left: 24px;
+  top: 24px;
+}
+
+.panel-heading h2 {
+  font-size: 1.35rem;
+}
+
+.layer-list {
+  display: grid;
+  gap: 10px;
+}
+
+.layer-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(194, 222, 255, 0.12);
+  background: rgba(9, 22, 40, 0.7);
+  color: #edf4ff;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+.layer-toggle:hover {
+  transform: translateY(-1px);
+  border-color: rgba(173, 213, 255, 0.32);
+}
+
+.layer-toggle[data-active='true'] {
+  background: rgba(13, 34, 58, 0.94);
+}
+
+.layer-toggle[data-active='false'] {
+  opacity: 0.62;
+}
+
+.layer-toggle-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.layer-toggle-main strong,
+.layer-toggle-main small,
+.layer-meta {
+  display: block;
+}
+
+.layer-toggle-main strong {
+  font-size: 0.98rem;
+}
+
+.layer-toggle-main small {
+  margin-top: 2px;
+  color: rgba(214, 228, 255, 0.7);
+}
+
+.layer-meta {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  color: #8fdcc5;
+}
+
+.layer-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.04);
+}
+
+.layer-toggle[data-layer='flights'] .layer-swatch,
+.layer-chip[data-layer='flights'],
+.marker-group[data-layer='flights'] .marker-core,
+.marker-group[data-layer='flights'] .marker-pulse {
+  color: #69d2ff;
+  fill: #69d2ff;
+  background: #69d2ff;
+}
+
+.layer-toggle[data-layer='ships'] .layer-swatch,
+.layer-chip[data-layer='ships'],
+.marker-group[data-layer='ships'] .marker-core,
+.marker-group[data-layer='ships'] .marker-pulse {
+  color: #8df3b3;
+  fill: #8df3b3;
+  background: #8df3b3;
+}
+
+.layer-toggle[data-layer='satellites'] .layer-swatch,
+.layer-chip[data-layer='satellites'],
+.marker-group[data-layer='satellites'] .marker-core,
+.marker-group[data-layer='satellites'] .marker-pulse {
+  color: #ffd36e;
+  fill: #ffd36e;
+  background: #ffd36e;
+}
+
+.layer-toggle[data-layer='incidents'] .layer-swatch,
+.layer-chip[data-layer='incidents'],
+.marker-group[data-layer='incidents'] .marker-core,
+.marker-group[data-layer='incidents'] .marker-pulse {
+  color: #ff8d8d;
+  fill: #ff8d8d;
+  background: #ff8d8d;
+}
+
+.map-surface {
+  min-height: inherit;
+}
+
+.map-hud {
+  position: absolute;
+  left: 50%;
+  top: 24px;
+  z-index: 2;
+  transform: translateX(-50%);
+  width: min(520px, calc(100% - 840px));
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(194, 222, 255, 0.1);
+  background: rgba(6, 16, 28, 0.78);
+  backdrop-filter: blur(14px);
+}
+
+.map-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(214, 228, 255, 0.72);
+}
+
+.zoom-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.zoom-controls button {
+  min-width: 42px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(194, 222, 255, 0.12);
+  background: rgba(13, 33, 56, 0.92);
+  color: #edf4ff;
+  cursor: pointer;
+}
+
+.map-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+}
+
+.map-viewport:active {
+  cursor: grabbing;
+}
+
 .map-grid,
 .map-ring,
-.continent,
 .scanline {
   position: absolute;
   inset: 0;
@@ -111,40 +316,78 @@
   top: 4%;
 }
 
-.continent {
-  background: linear-gradient(135deg, rgba(80, 177, 255, 0.25), rgba(33, 244, 207, 0.08));
-  filter: blur(1px);
-  opacity: 0.8;
-}
-
-.continent-a {
-  clip-path: polygon(8% 18%, 22% 12%, 28% 20%, 26% 34%, 15% 36%, 9% 28%);
-}
-
-.continent-b {
-  clip-path: polygon(41% 26%, 57% 16%, 70% 28%, 62% 48%, 48% 50%, 39% 40%);
-}
-
-.continent-c {
-  clip-path: polygon(72% 52%, 82% 48%, 90% 62%, 84% 80%, 71% 76%, 67% 60%);
-}
-
 .scanline {
   background: linear-gradient(to bottom, transparent, rgba(77, 171, 255, 0.16), transparent);
   animation: sweep 6s linear infinite;
 }
 
-.system-status {
+.map-canvas {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+}
+
+.continent-shape {
+  fill: rgba(88, 177, 255, 0.18);
+  stroke: rgba(137, 212, 255, 0.32);
+  stroke-width: 2;
+}
+
+.latitude-line {
+  fill: none;
+  stroke: rgba(166, 204, 255, 0.15);
+  stroke-width: 1.5;
+  stroke-dasharray: 14 12;
+}
+
+.map-marker text {
+  fill: rgba(237, 244, 255, 0.88);
+  font-size: 18px;
+  text-anchor: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.marker-pulse {
+  opacity: 0.18;
+  animation: pulse 2.8s ease-in-out infinite;
+}
+
+.marker-core {
+  stroke: rgba(3, 9, 20, 0.8);
+  stroke-width: 2;
+}
+
+.layer-chip-row {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: calc(100% - 430px);
+}
+
+.layer-chip {
+  padding: 9px 12px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  background: rgba(4, 12, 24, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+}
+
+.layer-chip[data-active='false'] {
+  opacity: 0.34;
+}
+
+.system-status {
   right: 24px;
   bottom: 24px;
-  width: min(360px, calc(100% - 48px));
-  padding: 20px;
-  border-radius: 22px;
-  border: 1px solid rgba(194, 222, 255, 0.12);
-  background: rgba(5, 13, 24, 0.84);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.36);
 }
 
 .system-status h2 {
@@ -214,24 +457,86 @@
   }
 }
 
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.18;
+  }
+
+  50% {
+    transform: scale(1.8);
+    opacity: 0.04;
+  }
+}
+
+@media (max-width: 1100px) {
+  .map-stage {
+    min-height: auto;
+    padding-top: 196px;
+    padding-bottom: 286px;
+  }
+
+  .map-hud {
+    width: calc(100% - 48px);
+  }
+
+  .layer-chip-row {
+    max-width: calc(100% - 48px);
+  }
+}
+
 @media (max-width: 720px) {
   .map-shell {
     padding: 14px;
   }
 
-  .topbar {
+  .topbar,
+  .status-cluster,
+  .map-hud {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .map-stage {
-    min-height: calc(100svh - 142px);
+    min-height: 880px;
+    padding-top: 278px;
+    padding-bottom: 286px;
   }
 
+  .layer-panel,
   .system-status {
     left: 14px;
     right: 14px;
-    bottom: 14px;
     width: auto;
+  }
+
+  .layer-panel {
+    top: 14px;
+  }
+
+  .system-status {
+    bottom: 14px;
+  }
+
+  .map-hud {
+    left: 14px;
+    right: 14px;
+    top: 240px;
+    transform: none;
+    width: auto;
+    min-width: 0;
+  }
+
+  .zoom-controls {
+    justify-content: space-between;
+  }
+
+  .layer-chip-row {
+    left: 14px;
+    right: 14px;
+    bottom: 246px;
+    max-width: none;
   }
 
   .system-status dl {

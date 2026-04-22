@@ -34,3 +34,4 @@ Ralph is an autonomous AI agent loop that runs AI coding tools repeatedly until 
 - Root scripts are managed through npm workspaces; run cross-project checks from the repo root with `npm run build`, `npm run lint`, and `npm run test`
 - The frontend talks to the backend through the Vite proxy on `/api`; keep backend JSON endpoints rooted there for local development
 - The backend baseline status contract lives at `/api/status` and `/health`; extend those endpoints instead of adding one-off shell health checks elsewhere
+- The current map shell keeps its temporary layer scaffolding in `frontend/src/App.tsx`; when adding or removing shell layers before the shared data store lands, update both `layerDefinitions` and `layerMarkers` together
