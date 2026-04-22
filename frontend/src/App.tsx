@@ -17,6 +17,9 @@ type SystemStatus = {
     label: string
     cadence: string
     state: 'pending'
+    endpoint: '/api/live/fast' | '/api/live/slow'
+    version: string
+    lastUpdatedAt: string
   }>
   generatedAt: string
 }

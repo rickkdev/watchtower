@@ -8,6 +8,7 @@ Started: Wed Apr 22 12:17:00 CEST 2026
 - Treat `Shadowbroker/` as a separate local reference codebase and ignore it from the Watchtower repo root.
 - Use npm workspaces from the repo root to manage `frontend/` and `backend/`; root `build`, `lint`, and `test` scripts are the standard validation entrypoints.
 - Keep frontend-to-backend development traffic behind the Vite proxy on `/api`, with baseline shell health exposed from backend `/api/status` and `/health`.
+- Keep `/api/status` feed metadata derived from the same live snapshot builders that power `/api/live/fast` and `/api/live/slow`, so freshness and version fields do not drift.
 - The current frontend map shell defines its layer UI and placeholder overlay points side by side in `frontend/src/App.tsx`; keep `layerDefinitions` and `layerMarkers` aligned until live data moves into a shared store.
 
 ---
@@ -28,4 +29,13 @@ Started: Wed Apr 22 12:17:00 CEST 2026
   - The first-pass map interaction is fully frontend-local in `frontend/src/App.tsx`, so later data-store work can replace marker arrays without reworking the viewport controls.
   - Layer visibility is surfaced in both the control panel and the map chip row; keep those two affordances aligned when new layers are introduced.
   - Browser automation tools were not available in this run; UI behavior was covered with frontend tests, but manual browser verification is still needed for live pan and zoom feel.
+---
+
+## [2026-04-22 13:03:50 CEST] - US-003
+- Implemented split backend live-data contracts at `/api/live/fast` and `/api/live/slow`, added per-feed freshness and version metadata to `/api/status`, and wired ETag-based cache validation for both live endpoints.
+- Files changed: `AGENTS.md`, `prd.json`, `progress.txt`, `backend/src/live-data.ts`, `backend/src/live-data.test.ts`, `backend/src/server.test.ts`, `backend/src/server.ts`, `backend/src/status.ts`, `frontend/src/App.tsx`.
+- **Learnings for future iterations:**
+  - Derive `/api/status` feed metadata from the live snapshot builders instead of duplicating feed definitions; that keeps endpoint routing, freshness timestamps, and version counters in sync.
+  - The backend server now exports `createRequestHandler`, which is the clean entry point for HTTP-level tests without auto-binding a real dev port.
+  - Fast and slow payloads currently expose empty entity arrays behind stable contracts, so later feed ingestion work can populate those shapes without revisiting cache-validation behavior.
 ---

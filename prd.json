@@ -45,7 +45,7 @@
         "Verify both endpoints return valid JSON payloads"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "notes": "Model this after Shadowbroker's useful `fast` and `slow` split, not its full endpoint surface."
     },
     {

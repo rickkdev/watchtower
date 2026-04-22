@@ -1,4 +1,5 @@
 import { backendConfig } from './config.js'
+import { buildFastLiveSnapshot, buildSlowLiveSnapshot } from './live-data.js'
 
 export type ServiceStatus = 'online' | 'degraded'
 
@@ -18,46 +19,40 @@ export type StatusSnapshot = {
     label: string
     cadence: string
     state: 'pending'
+    endpoint: '/api/live/fast' | '/api/live/slow'
+    version: string
+    lastUpdatedAt: string
   }>
   generatedAt: string
 }
 
-export const buildStatusSnapshot = (startedAt: number): StatusSnapshot => ({
-  systemName: backendConfig.systemName,
-  status: 'online',
-  backend: {
+export const buildStatusSnapshot = (startedAt: number, now = Date.now()): StatusSnapshot => {
+  const fastSnapshot = buildFastLiveSnapshot(now)
+  const slowSnapshot = buildSlowLiveSnapshot(now)
+
+  return {
+    systemName: backendConfig.systemName,
     status: 'online',
-    port: backendConfig.backendPort,
-    uptimeSeconds: Math.floor((Date.now() - startedAt) / 1000),
-  },
-  frontend: {
-    expectedPort: backendConfig.frontendPort,
-  },
-  feeds: [
-    {
-      id: 'flights',
-      label: 'Flights',
-      cadence: 'fast',
-      state: 'pending',
+    backend: {
+      status: 'online',
+      port: backendConfig.backendPort,
+      uptimeSeconds: Math.floor((now - startedAt) / 1000),
     },
-    {
-      id: 'ships',
-      label: 'Ships',
-      cadence: 'fast',
-      state: 'pending',
+    frontend: {
+      expectedPort: backendConfig.frontendPort,
     },
-    {
-      id: 'satellites',
-      label: 'Satellites',
-      cadence: 'fast',
-      state: 'pending',
-    },
-    {
-      id: 'incidents',
-      label: 'Incidents',
-      cadence: 'slow',
-      state: 'pending',
-    },
-  ],
-  generatedAt: new Date().toISOString(),
-})
+    feeds: [
+      ...fastSnapshot.feeds.map((feed) => ({
+        ...feed,
+        endpoint: '/api/live/fast' as const,
+        version: fastSnapshot.version,
+      })),
+      ...slowSnapshot.feeds.map((feed) => ({
+        ...feed,
+        endpoint: '/api/live/slow' as const,
+        version: slowSnapshot.version,
+      })),
+    ],
+    generatedAt: new Date(now).toISOString(),
+  }
+}
