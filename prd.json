@@ -1,0 +1,158 @@
+{
+  "project": "Watchtower Minimal Geospatial OSINT Dashboard",
+  "branchName": "main",
+  "description": "Build a minimal self-hosted geospatial intelligence dashboard inspired by Shadowbroker's core map experience. The product should fuse a small set of real public, read-only feeds into one map with a lightweight backend cache and a simple frontend layer system. Use Vite for the frontend application. If any source needs a local fallback dataset for offline development or testing, the dashboard must clearly label that data as mock data. Scope is intentionally limited to non-invasive public sources and excludes Shodan, CCTV, police scanners, private messaging, radio mesh integrations, and any search or interaction features that materially increase surveillance or collection capability.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Create the app shell and deployment baseline",
+      "description": "As an operator, I need a minimal frontend and backend app shell so Watchtower can run locally as a self-hosted reference implementation.",
+      "acceptanceCriteria": [
+        "Project includes a frontend app, a backend service, and local run instructions",
+        "Frontend and backend can be started independently in local development",
+        "A simple environment configuration file documents required and optional variables",
+        "The initial app loads a full-screen map page with a visible system status area",
+        "Verify the app starts locally"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Use Vite with React on the frontend and a small HTTP API on the backend."
+    },
+    {
+      "id": "US-002",
+      "title": "Render a world map with a small layer system",
+      "description": "As an analyst, I want a fast interactive map with a handful of toggleable layers so I can compare multiple public signals in one place.",
+      "acceptanceCriteria": [
+        "Map supports pan and zoom on desktop and mobile widths",
+        "A layer panel exposes at least flights, ships, satellites, and incidents toggles",
+        "Layer visibility changes apply without full page reload",
+        "The UI clearly indicates which layers are enabled",
+        "Verify layer toggles in browser"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Keep the first version to 4 to 6 layers total. Avoid the 35-plus layer sprawl in Shadowbroker."
+    },
+    {
+      "id": "US-003",
+      "title": "Expose split fast and slow live-data endpoints",
+      "description": "As a developer, I want the backend to separate high-churn and low-churn payloads so the frontend can poll efficiently without reloading everything on every cycle.",
+      "acceptanceCriteria": [
+        "Backend exposes a fast live-data endpoint for moving entities",
+        "Backend exposes a slow live-data endpoint for static or slow-changing datasets",
+        "Responses include freshness metadata per source",
+        "The design supports cheap cache validation such as ETag or version counters",
+        "Verify both endpoints return valid JSON payloads"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "Model this after Shadowbroker's useful `fast` and `slow` split, not its full endpoint surface."
+    },
+    {
+      "id": "US-004",
+      "title": "Aggregate public flight data into the map",
+      "description": "As an analyst, I want to see a basic flight layer so I can track public aircraft positions in the same interface as other feeds.",
+      "acceptanceCriteria": [
+        "Backend ingests a real public read-only flight source in normal operation",
+        "Frontend renders flight markers with heading-aware icon rotation if heading is available",
+        "Each flight marker exposes a compact detail card with callsign, altitude, speed, and last update when available",
+        "Flight data refreshes on the fast polling cadence",
+        "If a local mock fallback is used for development or testing, the dashboard clearly labels the flight layer as mock data"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Use a real public read-only flight feed by default. Mock flight data is only for local fallback and must be visibly labeled in the UI. Do not add owner enrichment, private-jet targeting, holding-pattern analytics, or special watchlists in the minimal version."
+    },
+    {
+      "id": "US-005",
+      "title": "Aggregate public maritime vessel data into the map",
+      "description": "As an analyst, I want a ship layer so I can view vessel movement alongside flight activity on the same map.",
+      "acceptanceCriteria": [
+        "Backend ingests a real public read-only vessel source in normal operation",
+        "Frontend renders ship markers with basic vessel type or category styling when available",
+        "Ship markers expose a compact detail card with name, MMSI or identifier, course, speed, and last update when available",
+        "Ship data refreshes on the fast polling cadence",
+        "If a local mock fallback is used for development or testing, the dashboard clearly labels the ship layer as mock data"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "Use a real public read-only vessel feed by default. Mock vessel data is only for local fallback and must be visibly labeled in the UI. Keep this to standard vessel visualization. Exclude yacht watchlists, carrier estimation, and any identity-enrichment work."
+    },
+    {
+      "id": "US-006",
+      "title": "Add a minimal satellite layer",
+      "description": "As an analyst, I want an overhead satellite layer so I can compare space assets with air and maritime traffic at a glance.",
+      "acceptanceCriteria": [
+        "Backend provides a satellite dataset from real public orbital elements in normal operation",
+        "Frontend renders satellite markers distinct from aircraft and ships",
+        "Satellite detail cards show name, orbit class or category, and timestamp when available",
+        "Satellite data refreshes on the fast polling cadence or a reasonable fixed interval",
+        "If a local mock fallback is used for development or testing, the dashboard clearly labels the satellite layer as mock data"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "Use real public orbital data by default. Mock satellite data is only for local fallback and must be visibly labeled in the UI. This is a display-only layer. Exclude mission-sensitive classification schemes beyond broad public categories."
+    },
+    {
+      "id": "US-007",
+      "title": "Add a slow-changing incidents and news context layer",
+      "description": "As an analyst, I want a simple incidents or news layer so the moving data has geopolitical context on the same screen.",
+      "acceptanceCriteria": [
+        "Backend ingests at least one real slow-changing public incident or news feed in normal operation",
+        "Frontend renders incident markers or cards without blocking map performance",
+        "The slow layer refreshes on a slower cadence than moving entities",
+        "The UI shows source freshness and handles empty or stale results gracefully",
+        "If a local mock fallback is used for development or testing, the dashboard clearly labels the incidents or news layer as mock data"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "Use curated real public feeds by default. Mock incidents or news data is only for local fallback and must be visibly labeled in the UI. Avoid speculative scoring, targeting, or correlation engines in the minimal build."
+    },
+    {
+      "id": "US-008",
+      "title": "Provide a unified frontend data store and polling loop",
+      "description": "As a user, I want data updates to feel continuous so the dashboard stays usable without constant page refreshes.",
+      "acceptanceCriteria": [
+        "Frontend maintains a shared client-side data store for live layers",
+        "Fast and slow endpoints are polled on separate cadences",
+        "Backend connection state is surfaced to the UI",
+        "Layer toggles can trigger an immediate relevant refetch when needed",
+        "Verify the UI updates when backend payloads change"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "This keeps one of Shadowbroker's strongest architectural choices while staying small."
+    },
+    {
+      "id": "US-009",
+      "title": "Add map search and entity inspection basics",
+      "description": "As an analyst, I want to jump to a place and inspect a marker quickly so I can use the dashboard as a practical situational tool.",
+      "acceptanceCriteria": [
+        "UI supports place-name or coordinate search via a compliant public geocoding path in normal operation",
+        "Selecting a result recenters the map",
+        "Clicking a marker opens a compact detail panel without obscuring the whole map",
+        "The detail panel format is consistent across flights, ships, satellites, and incidents",
+        "If a local mock fallback is used for development or testing, the dashboard clearly labels search results as mock data"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Use a compliant public geocoding path by default. Mock search data is only for local fallback and must be visibly labeled in the UI. Keep inspection lightweight. Exclude country dossiers, live head-of-state lookups, or Sentinel imagery cards in the minimal version."
+    },
+    {
+      "id": "US-010",
+      "title": "Document safety boundaries and excluded capabilities",
+      "description": "As a maintainer, I need explicit product boundaries so the minimal clone stays aligned with a public-data dashboard instead of drifting into higher-risk surveillance features.",
+      "acceptanceCriteria": [
+        "README or project docs list included real public feeds and why they were chosen",
+        "Docs explicitly exclude Shodan, CCTV, police scanners, mesh chat, dead drops, and operator-supplied exploit or recon connectors",
+        "Docs describe that the system is read-only, uses real public data by default, and only uses mock data for clearly labeled local fallback cases",
+        "Docs specify how mock data must be visibly labeled in the dashboard when enabled",
+        "Docs explain how to add future layers through the same safe fast or slow ingestion model",
+        "Verify the safety boundary documentation exists in the repo"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": "This story is mandatory because the reference project mixes safe aggregation with higher-risk features that we are not reproducing."
+    }
+  ]
+}

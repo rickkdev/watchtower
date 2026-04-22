@@ -1,0 +1,10 @@
+# Ralph Progress Log
+Started: Wed Apr 22 12:17:00 CEST 2026
+
+## Codebase Patterns
+- Keep Watchtower's Ralph control files (`AGENTS.md`, `CLAUDE.md`, `CODEX.md`, `progress.txt`, `prompt.md`, `prd.json`) together under `watchtower/`.
+- Watchtower development happens directly on `main`; do not create separate Ralph branches for stories.
+- Commit messages should read like normal developer commits and stay all lowercase.
+- Treat `Shadowbroker/` as a separate local reference codebase and ignore it from the Watchtower repo root.
+
+---

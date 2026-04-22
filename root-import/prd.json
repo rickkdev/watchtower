@@ -1,0 +1,64 @@
+{
+  "project": "Minimal Tic-Tac-Toe",
+  "branchName": "ralph/minimal-tic-tac-toe",
+  "description": "Build a super minimalistic tic-tac-toe game in plain JavaScript that runs in the browser.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Create a minimal browser app shell",
+      "description": "As a player, I need a barebones HTML, CSS, and JavaScript setup so the game loads in a browser without any framework.",
+      "acceptanceCriteria": [
+        "App uses plain HTML, CSS, and JavaScript only",
+        "Page renders a centered game container with a 3x3 board mount point",
+        "No build step is required to run the game locally",
+        "Verify in browser"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Implement tic-tac-toe interactions",
+      "description": "As a player, I want to click squares to alternate between X and O so I can play a full game.",
+      "acceptanceCriteria": [
+        "Clicking an empty cell places the current player's mark",
+        "Turns alternate X then O",
+        "Filled cells cannot be overwritten",
+        "Game state is managed in JavaScript",
+        "Verify in browser"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Show win or draw state",
+      "description": "As a player, I want the game to detect wins and draws so the round ends correctly.",
+      "acceptanceCriteria": [
+        "All standard tic-tac-toe win lines are detected",
+        "A status label shows the winner or a draw message",
+        "Board input stops after a win or draw",
+        "Verify in browser"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Add a simple restart control",
+      "description": "As a player, I want to restart the board instantly so I can play again.",
+      "acceptanceCriteria": [
+        "A reset button clears the board and status",
+        "The next round always starts with X",
+        "The layout stays visually minimalistic",
+        "Verify in browser"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
