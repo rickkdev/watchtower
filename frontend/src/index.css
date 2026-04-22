@@ -1,0 +1,42 @@
+:root {
+  font-family:
+    'Space Grotesk',
+    'IBM Plex Sans',
+    system-ui,
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #edf4ff;
+  background:
+    radial-gradient(circle at top, rgba(43, 88, 182, 0.22), transparent 32%),
+    #020611;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}

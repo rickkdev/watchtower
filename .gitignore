@@ -1,1 +1,12 @@
-/Shadowbroker/
+node_modules
+dist
+coverage
+.env
+.env.local
+.DS_Store
+.last-branch
+Shadowbroker
+frontend/node_modules
+frontend/dist
+backend/node_modules
+backend/dist

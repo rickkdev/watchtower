@@ -6,5 +6,16 @@ Started: Wed Apr 22 12:17:00 CEST 2026
 - Watchtower development happens directly on `main`; do not create separate Ralph branches for stories.
 - Commit messages should read like normal developer commits and stay all lowercase.
 - Treat `Shadowbroker/` as a separate local reference codebase and ignore it from the Watchtower repo root.
+- Use npm workspaces from the repo root to manage `frontend/` and `backend/`; root `build`, `lint`, and `test` scripts are the standard validation entrypoints.
+- Keep frontend-to-backend development traffic behind the Vite proxy on `/api`, with baseline shell health exposed from backend `/api/status` and `/health`.
 
+---
+
+## [2026-04-22 12:55:12 CEST] - US-001
+- Implemented the initial Watchtower app shell with a Vite React frontend, a TypeScript backend service, shared workspace scripts, and documented environment/run instructions.
+- Files changed: `package.json`, `package-lock.json`, `.gitignore`, `.env.example`, `README.md`, `AGENTS.md`, `prd.json`, `progress.txt`, `backend/*`, `frontend/*`.
+- **Learnings for future iterations:**
+  - Use the repo-root workspace scripts for validation so frontend and backend stay in sync.
+  - The frontend shell already fetches `/api/status`, so future system-wide status and freshness metadata can extend that payload instead of introducing a second shell endpoint.
+  - Browser automation tools were not available in this run; startup was verified with local HTTP checks against the backend JSON endpoint and the Vite-served frontend shell.
 ---

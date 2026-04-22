@@ -31,3 +31,6 @@ Ralph is an autonomous AI agent loop that runs AI coding tools repeatedly until 
 - Use short, natural, all-lowercase commit messages instead of story-template commit subjects
 - Treat `Shadowbroker/` as a local reference repo, not part of Watchtower's tracked source
 - Always update AGENTS.md with discovered patterns for future iterations
+- Root scripts are managed through npm workspaces; run cross-project checks from the repo root with `npm run build`, `npm run lint`, and `npm run test`
+- The frontend talks to the backend through the Vite proxy on `/api`; keep backend JSON endpoints rooted there for local development
+- The backend baseline status contract lives at `/api/status` and `/health`; extend those endpoints instead of adding one-off shell health checks elsewhere
